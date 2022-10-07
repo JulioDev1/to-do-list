@@ -17,7 +17,7 @@ export const AddTask = ({ onAddTodo }) => {
           onAddTodo(title);
         }}
       >
-        Add Todo
+        add to do
       </Button>
     </Container>
   );
