@@ -1,24 +1,37 @@
-import { useState } from "react";
-import { Button, Container, Title } from "./styled";
+import { useState, useEffect, useRef } from "react";
+import { Button, Container } from "./styled";
 import { Input } from "./styled";
-export const AddTask = ({ onAddTodo }) => {
+export const AddTask = (props) => {
   const [title, setTitle] = useState("");
+
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  });
+
+  const handleChange = (e) => {
+    setTitle(e.target.value);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    props.onSubmit({
+      id: Math.floor(Math.random() * 10000),
+      text: title,
+    });
+
+    setTitle("");
+  };
   return (
-    <Container>
-      <Title>What are you doing to day ?</Title>
+    <Container onSubmit={handleSubmit}>
       <Input
-        placeholder="add your to-do"
+        type="text"
+        placeholder="Add Your To-Do"
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={handleChange}
+        ref={inputRef}
       />
-      <Button
-        onClick={() => {
-          setTitle("");
-          onAddTodo(title);
-        }}
-      >
-        add to do
-      </Button>
+      <Button>Add To Do</Button>
     </Container>
   );
 };
